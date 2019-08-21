@@ -4,46 +4,12 @@ from bs4 import BeautifulSoup
 ebayReq = requests.get("https://www.ebay.com/sch/i.html?_from=R40&_trksid=p2380057.m570.l1313.TR12.TRC2.A0.H0.Xblanke.TRS0&_nkw=blanket&_sacat=0")
 srcEbay = ebayReq.content
 
-ebay = BeautifulSoup(srcEbay, 'lxml')
-atags = ebay.find_all('a', attrs ={"class" : "s-item__link"})
-litags = ebay.find_all('li', attrs = {"class" : "s-item"})
-ePrices = ebay.find_all('span', attrs = {"class" : "s-item__price"})
-rangePrice = []
-singlePrice = []
-filterPrice = []
-def getPrice():
-    for price in ePrices:
-        if price.text.count('$') == 2:
-            price1 = float(price.text[price.text.index('$')+1:price.text.index(" ")])
-            price2 = float(price.text[price.text.index('o')+3:len(price.text)])
-            rangePrice.append([price1,price2])
-        else:
-           price3 = price.text[1:len(price.text)]
-           singlePrice.append(float(price3))
-def priceFilter():
-    count = 0
-    for price in rangePrice:
-        if price[0] < singlePrice[count]:
-            filterPrice.append(price)
-            count = count + 1
-    for price in singlePrice:
-        if price < rangePrice[count][0]:
-            filterPrice.append(price)
-            count = count + 1
-    filterPrice.sort()
+ebay = BeautifulSoup(srcEbay, 'html.parser')
+parentElement = ebay.find_all('div', class_="s-item__wrapper clearfix")
+priceAndUrl = []
+for element in parentElement:
+    price = element.find('div', class_='s-item__info clearfix').find('span', class_='s-item__price').text
+    url = element.find('div', class_='s-item__info clearfix').find('a', class_='s-item__link').get('href')
+    priceAndUrl.append([price, url])
 
-getPrice()
-priceFilter()
-print(filterPrice)
-##print(singlePrice)
-##print(rangePrice)
-##for tag in atags:
-##    print(tag.get('href'))
-"""
-
-for li_tag in litags:
-    a_tags = li_tag.find('a', attrs ={"class" : "s-item__link"})
-    urls.append(a_tags.attrs['href'])
-
-print(urls)
-"""
+print(priceAndUrl)
