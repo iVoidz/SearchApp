@@ -10,7 +10,7 @@ the_jinja_env = jinja2.Environment(
 
 class MainPageHandler(webapp2.RequestHandler):
     def get(self):
-        result_template = the_jinja_env.get_template('..HTML/index.html')
+        result_template = the_jinja_env.get_template('/HTML/index.html')
         username = self.request.get("uName")
         password = self.request.get("pass")
     def post(self):

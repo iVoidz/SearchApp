@@ -5,25 +5,35 @@ ebayReq = requests.get("https://www.ebay.com/sch/i.html?_from=R40&_trksid=p23800
 srcEbay = ebayReq.content
 
 ebay = BeautifulSoup(srcEbay, 'lxml')
+atags = ebay.find_all('a', attrs ={"class" : "s-item__link"})
 litags = ebay.find_all('li', attrs = {"class" : "s-item"})
-for li in litags:
-    atag = li.findChild('a',href = True)
-    print(atag)
+ePrices = ebay.find_all('span', attrs = {"class" : "s-item__price"})
+rangePrice = []
+singlePrice = []
+filterPrice = []
+
+def getPrice():
+    for price in ePrices:
+        if price.text.count('$') == 2:
+            price1 = float(price.text[price.text.index('$')+1:price.text.index(" ")])
+            price2 = float(price.text[price.text.index('o')+3:len(price.text)])
+            rangePrice.append([price1,price2])
+        else:
+           price3 = price.text[1:len(price.text)]
+           singlePrice.append(float(price3))
+
+getPrice()
+singlePrice.sort()
+rangePrice.sort()
+##print(singlePrice)
+print(rangePrice)
+##for tag in atags:
+##    print(tag.get('href'))
 """
 
 for li_tag in litags:
     a_tags = li_tag.find('a', attrs ={"class" : "s-item__link"})
     urls.append(a_tags.attrs['href'])
 
-print(urls)
-"""
-"""
-htags = amazon.find_all("h2")
-print(htags)
-
-urls = []
-for h2_tag in amazon.find_all("h2"):
-    a_tag = h2_tag.find("a")
-    urls.append(a_tag.attrs['href'])
 print(urls)
 """
