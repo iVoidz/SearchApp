@@ -11,9 +11,12 @@ the_jinja_env = jinja2.Environment(
 class MainPageHandler(webapp2.RequestHandler):
     def get(self):
         result_template = the_jinja_env.get_template('/HTML/index.html')
+        self.response.write(result_template.render())
+
+class Loggedin(webapp2.RequestHandler):
+    def post(self):
         username = self.request.get("uName")
         password = self.request.get("pass")
-    def post(self):
         acc = Accounts(Username = username, Password = password)
         acc.put()
         var_dict = {
@@ -22,9 +25,16 @@ class MainPageHandler(webapp2.RequestHandler):
             "pass": password
         }
         print(var_dict["all_acc"])
-        result_template = the_jinja_env.get_template('search.html')
+        result_template = the_jinja_env.get_template('/HTML/search.html')
+        self.response.write(result_template.render(var_dict))
+
+class Login(webapp2.RequestHandler):
+    def get(self):
+        result_template = the_jinja_env.get_template('/HTML/login.html')
         self.response.write(result_template.render())
 
 app = webapp2.WSGIApplication([
     ('/', MainPageHandler),
-], debug = True)
+    ('/loggedin', Loggedin),
+    ('/login', Login)
+], debug=True)
