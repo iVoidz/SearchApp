@@ -11,7 +11,6 @@ ePrices = ebay.find_all('span', attrs = {"class" : "s-item__price"})
 rangePrice = []
 singlePrice = []
 filterPrice = []
-
 def getPrice():
     for price in ePrices:
         if price.text.count('$') == 2:
@@ -21,12 +20,23 @@ def getPrice():
         else:
            price3 = price.text[1:len(price.text)]
            singlePrice.append(float(price3))
+def priceFilter():
+    count = 0
+    for price in rangePrice:
+        if price[0] < singlePrice[count]:
+            filterPrice.append(price)
+            count = count + 1
+    for price in singlePrice:
+        if price < rangePrice[count][0]:
+            filterPrice.append(price)
+            count = count + 1
+    filterPrice.sort()
 
 getPrice()
-singlePrice.sort()
-rangePrice.sort()
+priceFilter()
+print(filterPrice)
 ##print(singlePrice)
-print(rangePrice)
+##print(rangePrice)
 ##for tag in atags:
 ##    print(tag.get('href'))
 """
