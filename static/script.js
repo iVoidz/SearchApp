@@ -7,7 +7,8 @@ input.addEventListener("keydown", e => {
   const keyName = event.key || event.which;
   if(keyName === "Enter"){
     getRecipes(input.value)
-    input.value = ''
+    input.value = '';
+    window.location.href = '#main'
   }
 });
 

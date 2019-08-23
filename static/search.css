@@ -3,6 +3,7 @@
 * {
     margin: 0;
     padding: 0;
+    scroll-behavior: smooth;
 }
 
 body {
@@ -73,6 +74,7 @@ body {
 .picture {
   width: 80%;
   height: 80%;
+  border-radius: 50px;
 }
 
 .link {
@@ -95,4 +97,19 @@ body {
   display: flex;
   align-items: center;
   flex-direction: column;
+  border-radius: 25px;
+  background-color: black;
+  color: white;
+  transition: all ease .4s;
+}
+
+.link:hover contain {
+  width: 320px;
+  height: 420px;
+}
+
+.contain:hover {
+  width: 310px;
+  height: 410px;
+  transform: rotateZ(5deg);
 }
