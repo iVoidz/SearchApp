@@ -19,6 +19,7 @@ body {
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    position: relative;
 }
 
 .search-bar {
@@ -112,4 +113,16 @@ body {
   width: 310px;
   height: 410px;
   transform: rotateZ(5deg);
+}
+
+.heading {
+  color: transparent; 
+   background: url('https://images.pexels.com/photos/989946/pexels-photo-989946.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260') no-repeat;
+   -webkit-background-clip: text;
+   -webkit-text-fill-color: transparent;
+   position: absolute;
+   left: 25vw;
+   top: 50px;
+   font-size: 90px;
+   pointer-events: none;
 }
